@@ -13,23 +13,30 @@ public class Main {
         try {
             transaction = session.beginTransaction();
 
+            // Create a new Driver entity
+            Driver driver = new Driver("Amir ", 10);
+
+            // Save the driver entity
+            session.save(driver);
+
             // Create a new Car entity
             Car car = new Car();
             car.setName("Honda");
 
-
-            Driver driver = new Driver("Timo ", 5);
-            //2. we need to add the car object as we added in driver class
-            driver.setCar(car);
-
-
-
+            // Associate the car with the driver
+            car.setDriver(driver);
 
             // Save the car entity
             session.save(car);
-            session.save(driver);
 
+            // Commit the transaction
             transaction.commit();
+
+            // Retrieve the driver entity (optional)
+            Driver savedDriver = session.get(Driver.class, driver.getDid());
+            System.out.println("Driver: " + savedDriver.getName());
+            System.out.println("Associated Cars: " + savedDriver.getCars());
+
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();

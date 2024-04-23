@@ -1,29 +1,27 @@
 import javax.persistence.*;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@javax.persistence.Table(name = "driver")
+@Table(name = "driver")
 public class Driver {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "did")
     private int did;
+
     @Column(name = "experience")
     private int experience;
+
     @Column(name = "name")
     private String name;
-    // 2. There should be link between the driver and car
-    //2.1 we need to add the relationship between car and driver
-    //2.2 we design as one to oen
-    //2.3 specify the join id
-    @OneToOne(cascade = CascadeType.ALL, optional = true)
-    @JoinColumn(name="car_id")
-    private Car car;
-    //add setter and getter for Car
 
+    // One driver may run many cars
+    // Define the one-to-many relationship with Car
+    @OneToMany(mappedBy = "driver")
+    private List<Car> cars = new ArrayList<>();
 
+    // Constructors, getters, and setters
 
     public Driver() {
     }
@@ -31,7 +29,6 @@ public class Driver {
     public Driver(String name, int experience) {
         this.name = name;
         this.experience = experience;
-
     }
 
     public int getDid() {
@@ -57,11 +54,12 @@ public class Driver {
     public void setName(String name) {
         this.name = name;
     }
-    public Car getCar() {
-        return car;
+
+    public List<Car> getCars() {
+        return cars;
     }
 
-    public void setCar(Car car) {
-        this.car = car;
+    public void setCars(List<Car> cars) {
+        this.cars = cars;
     }
 }

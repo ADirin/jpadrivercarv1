@@ -20,6 +20,17 @@ public class Car {
     public int getCid() {
         return cid;
     }
+    // Bidirectional relationship with Driver
+    @ManyToOne
+    private Driver driver;
+
+    public Driver getDriver() {
+        return driver;
+    }
+
+    public void setDriver(Driver driver) {
+        this.driver = driver;
+    }
 
     public void setCid(int cid) {
         this.cid = cid;
